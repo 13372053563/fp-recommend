@@ -1,0 +1,206 @@
+<title>商品大类列表</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        #category_img {
+            width: 500px;
+            height: 300px;
+        }
+        #slogan {
+            font-family: 华文行楷, fangsong;
+        }
+        #slogan2 {
+            font-family: 华文新魏, fangsong;
+        }
+    </style>
+    <br>
+    <div class="row center-block">
+        <div class="col-sm-12 subtitle">
+            <h3 id="slogan">商品大类列表</h3>
+        </div>
+    </div>
+    <div class="row">
+        {% for category in cat_list %}
+            <div class="col-sm-6">
+                {% if category == 'snacks' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id='category_img' src="{% static 'store/category_img/snacks.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'deli' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/deli.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'dairy eggs' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/dairy eggs.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'pantry' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/pantry.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'alcohol' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/alcohol.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'bulk' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/bulk.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'international' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/international.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'produce' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/produce.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'beverages' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/beverages.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'missing' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/missing.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'pets' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/pets.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'household' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/household.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'bakery' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/bakery.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'babies' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/babies.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'dry goods pasta' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/dry goods pasta.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'frozen' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/frozen.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'meat seafood' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/meat seafood.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'breakfast' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/breakfast.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'canned goods' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/canned goods.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'personal care' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="{% static 'store/category_img/personal care.jpg' %}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% elif category == 'other' %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="http://via.placeholder.com/500x300/FAEBD7?text={{ category }}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% else %}
+                    <a href="{% url 'store:subcategoryList' cat_name=category %}">
+                        <img id="category_img" src="http://via.placeholder.com/500x300/FAEBD7?text={{ category }}"
+                             class="img-responsive center-block" alt="{{ category }}">
+                        <h3 align="center" id="slogan2">
+                            {{ category }}
+                        </h3>
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

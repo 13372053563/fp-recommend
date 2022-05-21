@@ -1,0 +1,109 @@
+<title>商品列表</title>
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <script>
+        function atc() {
+            $(document).ready(function () {
+                $('#myModal').modal();
+            });
+        }
+    </script>
+    <style>
+        #product {
+            border-style: solid;
+            border-color: white white;
+            padding-top: 1%;
+        }
+        #slogan {
+            text-align: center;
+        }
+    </style>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">商品添加</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>商品添加购物车成功</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'store:product_list' subcat_name=subcat_name %}?order=p_total_views">
+                    最热
+                </a>
+            </li>
+        </ol>
+    </nav>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-sm-3" id="product">
+                <div class="col-sm-12">
+                    <a href="{% url 'store:product' product_id=product.id %}">
+                        <img src="{{ product.p_url }}" width="200px" height="250px" class="img-responsive center-block"
+                             alt="">
+                    </a>
+                </div>
+                <br>
+                <div class="col-sm-12">
+                    <h6 align="left" id="slogan">{{ product.p_name }}</h6>
+                </div>
+                <div class="col-sm-12">
+                    <h6 align="left" id="slogan">浏览: {{ product.p_total_views }}</h6>
+                    <h6 align="left" id="slogan">价格: {{ product.p_price }}元</h6>
+                </div>
+                <br>
+                {% if user.is_authenticated %}
+                    <div class="col-sm-12" style="text-align: center">
+                        <a name="AddToCart" class="btn btn-primary" id="addtocart" style=""
+                           href="{% url 'store:addToCart' product_id=product.id username=user.username %}"
+                           onclick="atc()">加入购物车</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <!-- 页码导航 -->
+    <div class="pagination row">
+        <div class="m-auto">
+        <span class="step-links">
+            <!-- 如果不是第一页，则显示上翻按钮 -->
+            {% if products.has_previous %}
+                <a href="?page=1&order={{ order }}" class="btn btn-success">
+                    &laquo; 1
+                </a>
+                <span>...</span>
+                <a href="?page={{ products.previous_page_number }}&order={{ order }}" class="btn btn-secondary">
+                    {{ products.previous_page_number }}
+                </a>
+            {% endif %}
+            <!-- 当前页面 -->
+            <span class="current btn btn-danger btn-lg">
+                {{ products.number }}
+            </span>
+            <!-- 如果不是最末页，则显示下翻按钮 -->
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}&order={{ order }}" class="btn btn-secondary">
+                    {{ products.next_page_number }}
+                </a>
+                <span>...</span>
+                <a href="?page={{ products.paginator.num_pages }}&order={{ order }}" class="btn btn-success">
+                    {{ products.paginator.num_pages }} &raquo;
+                </a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}

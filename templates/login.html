@@ -1,0 +1,28 @@
+<title>登录</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-signin vrule" method="post" action="{% url 'store:login' %}">
+                <h3 class="form-signin-heading" style="text-align: center">登录</h3>
+                {% csrf_token %}
+                {% for field in login_form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <p class="text-danger">
+                        {{ field.errors.as_text }}
+                    </p>
+                {% endfor %}
+                <span class="text-danger">{{ login_form.non_field_errors }}</span>
+                <button class="btn btn-md btn-primary" type="submit" name="Log_in">登录</button>
+                <div class="flex-left top-gap text-small">
+                    <div class="unit-2-3">
+                        <span>没有账号？<a href="{% url 'store:register' %}">立即注册</a></span>
+                        <span style="float: right;"><a href="{% url 'password_reset' %}">忘记密码？</a></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

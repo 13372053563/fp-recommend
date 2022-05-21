@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block content %}
+    <title>Checkout</title>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">成功</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>订单已经处理完成！</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" href="{% url 'store:index' %}">关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-sm-8">
+            <form method="post" action="{% url 'store:confirm' cart_id=cartId username=user.username%}">
+                <input type="hidden" value="{% for q in quantity reversed %}{{ q }}{% endfor %}" name="quantity">
+                <input type="hidden" value="{{ products }}" name="products">
+                <input type="hidden" value="{{ total }}" name="total">
+                <div class="form-group">
+                    <label for="inputAddress">地址</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+                           name="address1">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">地址2</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"
+                           name="address2">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="inputCity">城市</label>
+                        <input type="text" class="form-control" id="inputCity" name="city">
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="inputState">省</label>
+                        <select id="inputState" class="form-control" name="state">
+                            <option selected>江苏</option>
+                            <option>浙江</option>
+                            <option>北京</option>
+                            <option>上海</option>
+                            <option>广东</option>
+                            <option>天津</option>
+                            <option>河南</option>
+                            <option>河北</option>
+                            <option>安徽</option>
+                            <option>山东</option>
+                            <option>江西</option>
+                            <option>福建</option>
+                            <option>山西</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label for="inputZip">邮编</label>
+                        <input type="text" class="form-control" id="inputZip" name="zipcode">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="addtocart" onclick="confirmOrder()">支付</button>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="col-sm-4" id="summary">
+            <br>
+            <h5 id="summary-font">订单信息</h5>
+            <hr id="summary">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6 id="summary-font">商品名称</h6>
+                </div>
+                <div class="col-sm-3">
+                    <h6 id="summary-font">商品数量</h6>
+                </div>
+                <div class="col-sm-3">
+                    <h6 id="summary-font">商品价格</h6>
+                </div>
+            </div>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-sm-6">
+                        <h6 id="summary-font">{{ product.p_name }}</h6>
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 id="summary-font">{{ quantity.pop }}</h6>
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 id="summary-font">{{ product.p_price }}</h6>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <h6 id="summary-font">订单总价: </h6>
+                </div>
+                <div class="col-sm-3">
+                    <h6 id="summary-font">{{ total }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12" align="right">
+            <h6 id="summary-font">注意：非常抱歉，目前仅接受现金付款。</h6>
+        </div>
+    </div>
+    <script>
+        function confirmOrder() {
+            $(document).ready(function () {
+                $("#myModal").modal();
+            });
+        }
+    </script>
+{% endblock %}

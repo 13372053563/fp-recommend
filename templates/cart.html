@@ -1,0 +1,124 @@
+<title>购物车</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">失败</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>购物车中产品数量为0，请检查购物车并重试。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="product">
+        <div class="col-sm-6">
+            <h6 id="slogan" style="font-family: 华文楷体">产品</h6>
+        </div>
+        <div class="col-sm-2">
+            <h6 id="slogan" style="font-family: 华文楷体">单价</h6>
+        </div>
+        <div class="col-sm-2">
+            <h6 id="slogan" style="font-family: 华文楷体">数量</h6>
+        </div>
+        <div class="col-sm-2">
+            <h6 id="slogan" style="font-family: 华文楷体">总价</h6>
+        </div>
+    </div>
+    <br>
+    {% if cart.cart_Products.exists %}
+        <form method="post" action="{% url 'store:checkout' cart_id=cart.id %}">
+        {% for p in cart.cart_Products.all %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="{{ p.p_url }}" width="250" height="150"
+                         alt="https://via.placeholder.com/250x150/FF7F50/FFA500?text=Product">
+                    <br>
+                    <br>
+                    <h6>{{ p.p_name }}</h6>
+                </div>
+                <div class="col-sm-2">
+                    <h6 id="price {{ forloop.counter }}">{{ p.p_price }}</h6>
+                </div>
+                <div class="col-sm-2">
+                    <label for="quantity {{ forloop.counter }}"></label>
+                    <a class="fa fa-minus" aria-hidden="true" onclick="minus({{ forloop.counter }})"></a>
+                    <input type="number" name="quantity" id="quantity {{ forloop.counter }}" value="0" min="0">
+                    <a class="fa fa-plus" aria-hidden="true" onclick="plus({{ forloop.counter }})"></a>
+                </div>
+                <div class="col-sm-1">
+                    <h6 id="total {{ forloop.counter }}"></h6>
+                </div>
+                <div class="col-sm-1">
+                    <a class="fa fa-close" href="{% url 'store:delete' product_id=p.id username=user.username %}"></a>
+                </div>
+            </div>
+            <hr class="separator">
+        {% endfor %}
+        <div class="row">
+            <div class="col-sm-12" align="right">
+                <h6 id="slogan">Total:<span id="all"></span></h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" align="right">
+                <button name="AddToCart" class="btn btn-primary" id="addtocart" onclick="checkTotal()">支付</button>
+            </div>
+        </div>
+    {% else %}
+        <h4 id="slogan" align="center">您的购物车中没有商品，您可以转到
+            <a href="{% url 'store:categories' %}">商品页面</a>
+            挑选商品</h4>
+    {% endif %}
+{% csrf_token %}
+</form>
+    <script src="https://use.fontawesome.com/6039a713fa.js"></script>
+    <script>
+        var total = 0;
+        function plus(a) {
+            if (a >= 0) {
+                document.getElementById("quantity " + a.toString()).value++;
+                var quantity = parseInt(document.getElementById("quantity " + a.toString()).value);
+                var price = parseFloat(document.getElementById("price " + a.toString()).innerHTML);
+                var sum = price * quantity;
+                document.getElementById("total " + a.toString()).innerHTML = sum;
+                total = total + price;
+                document.getElementById("all").innerHTML = total;
+            }
+        }
+
+        function minus(a) {
+            if (document.getElementById("quantity " + a.toString()).value > 0) {
+                document.getElementById("quantity " + a.toString()).value--;
+                var quantity = parseInt(document.getElementById("quantity " + a.toString()).value);
+                var price = parseFloat(document.getElementById("price " + a.toString()).innerHTML);
+                var sum = price * quantity;
+                document.getElementById("total " + a.toString()).innerHTML = sum;
+                total = total - price;
+                document.getElementById("all").innerHTML = total;
+            }
+        }
+
+        function refresh() {
+            location.reload();
+        }
+
+        function checkTotal() {
+            if (total == 0) {
+                $(document).ready(function () {
+                    $("#myModal").modal();
+                });
+            }
+        }
+    </script>
+{% endblock %}

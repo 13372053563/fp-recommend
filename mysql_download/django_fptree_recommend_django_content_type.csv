@@ -1,0 +1,12 @@
+1,admin,logentry
+3,auth,group
+2,auth,permission
+4,auth,user
+12,comment,comment
+5,contenttypes,contenttype
+6,sessions,session
+11,store,cart
+7,store,customer
+8,store,order
+10,store,orderproducts
+9,store,product

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'store/css/bootstrap.min.css' %}">
+    <title></title>
+</head>
+
+<body>
+    <form action="." method="POST" id="reply_form">
+        {% csrf_token %}
+        <div class="form-group">
+            <div id="test">
+                {{ comment_form.media }}
+                {{ comment_form.content }}
+            </div>
+        </div>
+    </form>
+    <!-- 提交按钮 -->
+    <button onclick="confirm_submit({{ product_id }}, {{ parent_comment_id }})" class="btn btn-primary">发送</button>
+    <script src="{% static 'store/js/jquery-3.1.1.js' %}"></script>
+    <script src="{% static 'store/js/popper.js' %}"></script>
+    <script src="{% static 'store/js/bootstrap.min.js' %}"></script>
+    <!-- csrf token -->
+    <script src="{% static 'store/js/csrf.js' %}"></script>
+    <script>
+    $(function(){
+        $(".django-ckeditor-widget").removeAttr('style');
+    });
+    function confirm_submit(product_id, comment_id){
+        // 从 ckeditor 中取值
+        let content = CKEDITOR.instances['id_content'].getData();
+        alert("回复成功！")
+        // 调用 ajax 与后端交换数据
+        $.ajax({
+            url: '/comment/post-comment/' + product_id + '/' + comment_id,
+            type: 'POST',
+            data: {content: content},
+            // 成功回调
+            success: function(e){
+                if(e === '200 OK'){
+                    parent.location.reload();
+                }
+            }
+        })
+    }
+    </script>
+</body>
+</html>

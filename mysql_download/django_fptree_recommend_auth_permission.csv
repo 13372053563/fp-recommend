@@ -1,0 +1,48 @@
+1,Can add log entry,1,add_logentry
+2,Can change log entry,1,change_logentry
+3,Can delete log entry,1,delete_logentry
+4,Can view log entry,1,view_logentry
+5,Can add permission,2,add_permission
+6,Can change permission,2,change_permission
+7,Can delete permission,2,delete_permission
+8,Can view permission,2,view_permission
+9,Can add group,3,add_group
+10,Can change group,3,change_group
+11,Can delete group,3,delete_group
+12,Can view group,3,view_group
+13,Can add user,4,add_user
+14,Can change user,4,change_user
+15,Can delete user,4,delete_user
+16,Can view user,4,view_user
+17,Can add content type,5,add_contenttype
+18,Can change content type,5,change_contenttype
+19,Can delete content type,5,delete_contenttype
+20,Can view content type,5,view_contenttype
+21,Can add session,6,add_session
+22,Can change session,6,change_session
+23,Can delete session,6,delete_session
+24,Can view session,6,view_session
+25,Can add customer,7,add_customer
+26,Can change customer,7,change_customer
+27,Can delete customer,7,delete_customer
+28,Can view customer,7,view_customer
+29,Can add order,8,add_order
+30,Can change order,8,change_order
+31,Can delete order,8,delete_order
+32,Can view order,8,view_order
+33,Can add product,9,add_product
+34,Can change product,9,change_product
+35,Can delete product,9,delete_product
+36,Can view product,9,view_product
+37,Can add order products,10,add_orderproducts
+38,Can change order products,10,change_orderproducts
+39,Can delete order products,10,delete_orderproducts
+40,Can view order products,10,view_orderproducts
+41,Can add cart,11,add_cart
+42,Can change cart,11,change_cart
+43,Can delete cart,11,delete_cart
+44,Can view cart,11,view_cart
+45,Can add comment,12,add_comment
+46,Can change comment,12,change_comment
+47,Can delete comment,12,delete_comment
+48,Can view comment,12,view_comment

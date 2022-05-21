@@ -1,0 +1,70 @@
+<title>商品小类列表</title>
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        #category_img {
+            width: 500px;
+            height: 300px;
+        }
+
+        #slogan2 {
+            font-family: 华文新魏, fangsong;
+        }
+    </style>
+    <br>
+    <div class="row center-block">
+        <div class="col-sm-12 subtitle">
+            <h3 id="slogan2">{{ cat_name }}的子类列表</h3>
+        </div>
+    </div>
+    <div class="row">
+        {% for subcat in subcat_sets %}
+            <div class="col-sm-6">
+                <a href="{% url 'store:product_list' subcat_name=subcat %}">
+                    <img id="category_img" src="https://via.placeholder.com/500x300/F0E68C/FFFFFF?text={{ subcat }}"
+                         class="img-responsive center-block" alt="{{ subcat }}">
+                    <h3 align="center" id="slogan2">
+                        {{ subcat }}
+                    </h3>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- 页码导航 -->
+    <div class="pagination row">
+        <div class="m-auto">
+        <span class="step-links">
+            <!-- 如果不是第一页，则显示上翻按钮 -->
+            {% if subcat_sets.has_previous %}
+                <a href="?page=1" class="btn btn-success">
+                    &laquo; 1
+                </a>
+                <span>...</span>
+                <a href="?page={{ subcat_sets.previous_page_number }}"
+                   class="btn btn-secondary"
+                >
+                    {{ subcat_sets.previous_page_number }}
+                </a>
+            {% endif %}
+
+            <!-- 当前页面 -->
+            <span class="current btn btn-danger btn-lg">
+                {{ subcat_sets.number }}
+            </span>
+
+            <!-- 如果不是最末页，则显示下翻按钮 -->
+            {% if subcat_sets.has_next %}
+                <a href="?page={{ subcat_sets.next_page_number }}"
+                   class="btn btn-secondary">
+                    {{ subcat_sets.next_page_number }}
+                </a>
+                <span>...</span>
+                <a href="?page={{ subcat_sets.paginator.num_pages }}"
+                   class="btn btn-success">
+                    {{ subcat_sets.paginator.num_pages }} &raquo;
+                </a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}

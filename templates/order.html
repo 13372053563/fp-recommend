@@ -1,0 +1,71 @@
+<title>我的订单</title>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+            {% if products|length == 0 %}
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="center">
+                        <h4 id="slogan">
+                            您目前还没有订单哦，请转到
+                            <a href="{% url 'store:shoppingcart' username=user.username %}">购物车</a>
+                            购买
+                        </h4>
+                    </div>
+                </div>
+            {% endif %}
+            {% for i in products %}
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="center">
+                        <a class="btn btn-dark" data-toggle="collapse" href="#collapseExample{{ forloop.counter }}"
+                           role="button" aria-expanded="false" aria-controls="collapseExample">
+                            订单{{ forloop.counter }}
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse" id="collapseExample{{ forloop.counter }}">
+                    <div class="card card-body">
+                        <br>
+                        <div>
+                            <h5 id="summary-font">
+                                订单详情
+                                <a class="fa fa-close fa-2x"
+                                   href="{% url "store:remove_order" order_id=forloop.counter0 username=user.username %}"
+                                   style="float: right"></a>
+                            </h5>
+                        </div>
+                        <hr id="summary">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h6 id="summary-font">商品名称</h6>
+                            </div>
+                            <div class="col-sm-3">
+                                <h6 id="summary-font">商品数量</h6>
+                            </div>
+                            <div class="col-sm-3">
+                                <h6 id="summary-font">商品价格</h6>
+                            </div>
+                        </div>
+                        {% for j in i %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h6 id="summary-font">{{ j.product.p_name }}</h6>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 id="summary-font">{{ j.quantity }}</h6>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 id="summary-font">{{ j.product.p_price }}</h6>
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
