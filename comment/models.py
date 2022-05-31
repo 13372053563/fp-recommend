@@ -21,3 +21,6 @@ class Comment(MPTTModel):
 
     def __str__(self):
         return self.content[:20]
+
+    class Meta:
+        verbose_name_plural = "评论表"

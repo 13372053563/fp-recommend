@@ -34,11 +34,10 @@ class CustomerAdmin(admin.ModelAdmin):
 class ProductAdmin(ImportExportModelAdmin):
     list_display = ('id', 'p_name', 'p_department', 'p_aisle', 'p_price', 'p_url', 'p_total_views')
     resource_class = ProductResource
-    search_fields = ('p_name', 'p_department', 'p_aisle')
-    list_filter = ("p_department", )
+    list_filter = ("p_department",)
     list_per_page = 20
+    search_fields = ('p_name', 'p_department', 'p_aisle')
 
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Product, ProductAdmin)
-

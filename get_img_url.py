@@ -5,6 +5,7 @@
 @file: get_img_url.py
 @time: 2022/5/10 21:10
 '''
+import random
 from time import sleep
 
 from selenium import webdriver
@@ -48,20 +49,21 @@ def get_product_url(number, key_words):
                 img_list.append("http://via.placeholder.com/200x250/FAEBD7")
         except Exception as e:
             img_list.append("http://via.placeholder.com/200x250/FAEBD7")
-        save_to_model(key, img_list[0])  # 保存到数据库
-        print(count, key, img_list[0])
+
+        save_to_model(key, random.choice(img_list))  # 保存到数据库
+        print(count, key, random.choice(img_list))
         count += 1
         if count % 100 == 0:
             if count == number:
-                print("结束!")
+                print("爬虫结束!")
                 browser.close()
                 break
             else:
                 sleep(300)
         if count == number:
-            print("结束!")
+            print("爬虫结束!")
             browser.close()
-            return img_list[0]
+            return random.choice(img_list)
 
 
 

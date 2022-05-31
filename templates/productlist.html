@@ -15,7 +15,7 @@
             border-color: white white;
             padding-top: 1%;
         }
-        #slogan {
+        #slogan1 {
             text-align: center;
         }
     </style>
@@ -58,11 +58,11 @@
                 </div>
                 <br>
                 <div class="col-sm-12">
-                    <h6 align="left" id="slogan">{{ product.p_name }}</h6>
+                    <h6 align="left" id="slogan1">{{ product.p_name }}</h6>
                 </div>
                 <div class="col-sm-12">
-                    <h6 align="left" id="slogan">浏览: {{ product.p_total_views }}</h6>
-                    <h6 align="left" id="slogan">价格: {{ product.p_price }}元</h6>
+                    <h6 align="left" id="slogan1">浏览: {{ product.p_total_views }}</h6>
+                    <h6 align="left" id="slogan1">价格: {{ product.p_price }}元</h6>
                 </div>
                 <br>
                 {% if user.is_authenticated %}

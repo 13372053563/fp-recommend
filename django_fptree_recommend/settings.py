@@ -22,18 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1mzs+l_3-gu)*!94i7i=qvn4m+mvl1hky)6x(%@1!7gdi*#w!z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-#
-# ALLOWED_HOSTS = []
+DEBUG = True
 
-# 关闭调试模式
-DEBUG = False
-
-# 允许的服务器
-ALLOWED_HOSTS = ['*']
-
-# 静态文件收集目录
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+ALLOWED_HOSTS = []
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 

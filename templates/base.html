@@ -3,7 +3,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <link href="{% static 'favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'favicon1.ico' %}" rel="shortcut icon" type="image/x-icon">
     <script src="{% static 'store/js/jquery-3.1.1.min.js' %}"></script>
     {% include 'back_to_top_func.html' %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
@@ -24,7 +24,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-sm-6"><a href="{% url 'store:index' %}"><img src="{% static 'store/Kloth.jpg' %}" alt="图标"></a>
+        <div class="col-sm-6"><a href="{% url 'store:index' %}"><img src="{% static 'store/Kloth.png' %}" alt="图标"></a>
         </div>
         <div class="col-sm-6 text-center text-uppercase" id="slogan">
             <br>
@@ -69,7 +69,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'store:login' %}" style="font-size: 20px">登录</a>
+                        <a class="nav-link" href="{% url 'store:login' %}?next={{ request.path }}" style="font-size: 20px">登录</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'store:register' %}" style="font-size: 20px">注册</a>

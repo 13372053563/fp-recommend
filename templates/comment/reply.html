@@ -31,7 +31,6 @@
     function confirm_submit(product_id, comment_id){
         // 从 ckeditor 中取值
         let content = CKEDITOR.instances['id_content'].getData();
-        alert("回复成功！")
         // 调用 ajax 与后端交换数据
         $.ajax({
             url: '/comment/post-comment/' + product_id + '/' + comment_id,

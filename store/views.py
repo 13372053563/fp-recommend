@@ -1,5 +1,9 @@
+import re
+from time import sleep
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect
@@ -57,17 +61,42 @@ def register(request):
 
 
 def user_login(request):
+    global next
     if request.method == "POST":
         login_form = LoginForm(request.POST)
+        # print(login_form.is_valid())
         if login_form.is_valid():
             user = login_form.cleaned_data['user']
             login(request, user)
-            return redirect(reverse('index'))
+
+            customer = Customer.objects.filter(user_id=user.id)
+            if customer.count() == 0:
+                # 将管理员也加入到customer表中
+                customer = Customer()
+                customer.user = user
+                customer.save()
+
+                # 添加购物车
+                cart = Cart()
+                cart.cart_Customer_id = customer.id
+                cart.save()
+            # return HttpResponseRedirect(request.session['login_from'])
+            # return redirect(reverse('index'))
+            # return redirect(request.session['login_from'])
+            next = request.POST.get('next', '/')
+            # print(next)
+            if next == "":
+                return redirect(reverse('index'))
+            else:
+                return redirect(next)
     # GET请求
     else:
+        next = request.GET.get('next', '/')
+        # request.session['login_from'] = request.META.get("HTTP_REFERER", '/')
         login_form = LoginForm()
     context = {
         "login_form": login_form,
+        "next": next,
     }
     return render(request, "login.html", context=context)
 
@@ -140,21 +169,25 @@ def product(request, product_id):
 
     pro = Product.objects.get(id=product_id)
     # 商品图片
-    if pro.p_url.startswith('http'):
-        url = pro.p_url
-        pass
-    else:
+    re_s = r'http'
+    if re.match(re_s, str(pro.p_url)) is None:  # 匹配不是http开头的字符串
+        # print("pa")
         name_list = []
         name_list.append(pro.p_name)
         url = get_product_url(1, name_list)
-        # print(url)
+    else:
+        url = pro.p_url
     # 推荐
     max_len = 8
     result = predict(str(product_id), max_len)
     recItems = []
     for res in result:
-        p = Product.objects.all().get(id=int(res))
-        recItems.append(p)
+        try:
+            # 所有商品总数低于max_len会报错
+            p = Product.objects.all().get(id=int(res))
+            recItems.append(p)
+        except ObjectDoesNotExist:
+            pass
     comments = Comment.objects.filter(product=product_id)
     # 浏览量 +1
     pro.p_total_views += 1
@@ -183,7 +216,8 @@ def deleteFromCart(request, product_id, username):
     product = Product.objects.get(id=product_id)  # 获取待添加的商品
     cart = Cart.objects.get(cart_Customer__user__username=username)  # 获取当前用户的购物车
     cart.cart_Products.remove(product)  # 将商品从当前用户的购物车删除
-    return HttpResponseRedirect(reverse('store:shoppingcart', kwargs={'username': username}))
+    # return HttpResponseRedirect(reverse('store:shoppingcart', kwargs={'username': username}))
+    return HttpResponse(status=204)
 
 
 def shoppingcart(request, username):
@@ -264,11 +298,12 @@ def confirmOrder(request, cart_id, username):
     # {'quantity': ['01'], 'products': ['[<Product: Penne Rigate With Spinach>]'], 'total': ['10'], 'address1': ['caoji'], 'address2': ['16hao'], 'city': ['suqian'], 'state': ['Perak'], 'zipcode': ['12345']}
 
     total = request.POST.get('total')
-    address1 = request.POST.get('address1')
-    address2 = request.POST.get('address2')
+    address = request.POST.get('address')
+    region = request.POST.get('region')
     city = request.POST.get('city')
-    state = request.POST.get('state')
+    province = request.POST.get('province')
     zipcode = request.POST.get('zipcode')
+    print(address)
 
     global PRDS
     products = PRDS
@@ -285,13 +320,12 @@ def confirmOrder(request, cart_id, username):
     # print(tempQuantity)  # ['01']
 
     # 将地址信息保存到用户的信息表
-    cart.cart_Customer.address = address1
-    cart.cart_Customer.address2 = address2
+    cart.cart_Customer.address = address
+    cart.cart_Customer.region = region
     cart.cart_Customer.city = city
-    cart.cart_Customer.state = state
+    cart.cart_Customer.province = province
     cart.cart_Customer.zipcode = zipcode
     cart.cart_Customer.save()
-
 
     p = Product.objects.all()
     products = []
@@ -307,11 +341,14 @@ def confirmOrder(request, cart_id, username):
     PRDS = []
 
     # 支付完成后跳转到订单页面
-    return redirect(reverse("store:orders", kwargs={'username': username}))
+    # return redirect(reverse("store:shoppingcart", kwargs={'username': username}))
+    return HttpResponse(status=204)
+
 
 
 
 def orders(request, username):
+
     products = []
     orders = list(Order.objects.filter(order_Customer__user__username=username))
     o = OrderProducts.objects.filter(order__order_Customer__user__username=username)
@@ -320,7 +357,7 @@ def orders(request, username):
     context = {
         "products": products,
     }
-    # print(products)
+    print(products)
     return render(request, 'order.html', context=context)
 
 
@@ -328,12 +365,10 @@ def remove_order(request, order_id, username):
     orders = list(Order.objects.filter(order_Customer__user__username=username))
     order_obj = orders[order_id]  # 获取待删除订单的对象
     order_obj.delete()
-    return redirect(reverse("store:orders", kwargs={'username': username}))
-
+    # return redirect(reverse("store:orders", kwargs={'username': username}))
+    return HttpResponse(status=204)
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('store:index'))
-
-

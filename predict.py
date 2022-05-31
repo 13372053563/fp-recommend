@@ -76,7 +76,12 @@ def predict(product_id, num):
 
 
 if __name__ == "__main__":
-    product_id = "40000"
+    product_id = "1"
     num = 8
     result = predict(product_id, num)
     print(result)  # [39854, 32945, 12758, 11017, 2815, 23533, 1245, 26639]
+    recItems = []
+    for res in result:
+        p = Product.objects.all().get(id=int(res))
+        recItems.append(p)
+    print(recItems)

@@ -1,6 +1,25 @@
 <title>我的订单</title>
 {% extends 'base.html' %}
 {% block content %}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">成功</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>订单删除成功</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12">
             <br>
@@ -34,7 +53,7 @@
                                 订单详情
                                 <a class="fa fa-close fa-2x"
                                    href="{% url "store:remove_order" order_id=forloop.counter0 username=user.username %}"
-                                   style="float: right"></a>
+                                   style="float: right" onclick="delete_order()"></a>
                             </h5>
                         </div>
                         <hr id="summary">
@@ -68,4 +87,11 @@
             {% endfor %}
         </div>
     </div>
+    <script>
+            function delete_order() {
+            $(document).ready(function () {
+                $("#myModal").modal();
+            });
+        }
+    </script>
 {% endblock %}

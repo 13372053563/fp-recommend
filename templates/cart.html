@@ -16,23 +16,44 @@
                     <p>购物车中产品数量为0，请检查购物车并重试。</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">成功</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>成功删除商品！</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row" id="product">
         <div class="col-sm-6">
-            <h6 id="slogan" style="font-family: 华文楷体">产品</h6>
+            <h6 id="slogan">产品</h6>
         </div>
         <div class="col-sm-2">
-            <h6 id="slogan" style="font-family: 华文楷体">单价</h6>
+            <h6 id="slogan">单价</h6>
         </div>
         <div class="col-sm-2">
-            <h6 id="slogan" style="font-family: 华文楷体">数量</h6>
+            <h6 id="slogan">数量</h6>
         </div>
         <div class="col-sm-2">
-            <h6 id="slogan" style="font-family: 华文楷体">总价</h6>
+            <h6 id="slogan">总价</h6>
         </div>
     </div>
     <br>
@@ -48,7 +69,7 @@
                     <h6>{{ p.p_name }}</h6>
                 </div>
                 <div class="col-sm-2">
-                    <h6 id="price {{ forloop.counter }}">{{ p.p_price }}</h6>
+                    <h6 id="price {{ forloop.counter }}" >{{ p.p_price }}元</h6>
                 </div>
                 <div class="col-sm-2">
                     <label for="quantity {{ forloop.counter }}"></label>
@@ -60,14 +81,15 @@
                     <h6 id="total {{ forloop.counter }}"></h6>
                 </div>
                 <div class="col-sm-1">
-                    <a class="fa fa-close" href="{% url 'store:delete' product_id=p.id username=user.username %}"></a>
+                    <a class="fa fa-close" href="{% url 'store:delete' product_id=p.id username=user.username %}"
+                       onclick="delete_product()"></a>
                 </div>
             </div>
             <hr class="separator">
         {% endfor %}
         <div class="row">
             <div class="col-sm-12" align="right">
-                <h6 id="slogan">Total:<span id="all"></span></h6>
+                <h6 id="slogan">总价:<span id="all"></span></h6>
             </div>
         </div>
         <div class="row">
@@ -85,6 +107,7 @@
     <script src="https://use.fontawesome.com/6039a713fa.js"></script>
     <script>
         var total = 0;
+
         function plus(a) {
             if (a >= 0) {
                 document.getElementById("quantity " + a.toString()).value++;
@@ -119,6 +142,12 @@
                     $("#myModal").modal();
                 });
             }
+        }
+
+        function delete_product() {
+            $(document).ready(function () {
+                $("#myModal2").modal();
+            });
         }
     </script>
 {% endblock %}

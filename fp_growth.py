@@ -9,7 +9,7 @@ import time
 
 def load_data(path):  # 根据路径加载数据集
     orders = pd.read_csv(path, encoding='unicode_escape')
-    orders = orders.head(5000000)
+    orders = orders.head(1000000)
     group = orders.groupby("order_id")
     ans = []
     for key, value in tqdm(group, desc="read_data", ncols=80):
@@ -44,10 +44,10 @@ class Fp_growth():
         data_dic = {}
         for trans in data_set:
             fset = frozenset(trans)
+            # 返回指定键的值，如果键不在字典中，将会添加键并将值设置为一个指定值，默认为None
             data_dic.setdefault(fset, 0)
             data_dic[fset] += 1
         return data_dic
-
 
     def update_header(self, node, targetNode):  # 更新headertable中的node节点形成的链表
         while node.nodeLink != None:
@@ -159,7 +159,8 @@ class Fp_growth():
 
         max_l = 0
         for i in freqItemSet:  #
-            if len(i) > max_l: max_l = len(i)  # 将频繁项根据大小保存到指定的容器L中
+            if len(i) > max_l:
+                max_l = len(i)  # 将频繁项根据大小保存到指定的容器L中
         L = [set() for _ in range(max_l)]
         for i in freqItemSet:
             L[len(i) - 1].add(i)
@@ -170,6 +171,7 @@ class Fp_growth():
     def generate_R(self, data_set, min_support, min_conf):
         L, support_data = self.generate_L(data_set, min_support)
         sub_set_list = [i for item in L for i in item]
+
         def generate(i):
             rule_list = []
             for freq_set in tqdm(L[i], desc="Generate_Rules", ncols=80):
